@@ -186,7 +186,7 @@ export default createRule<Options, MessageIds>({
 
     return {
       Program(node): void {
-        const firstStatement = node.body.at(0);
+        const firstStatement = node.body ?? (node.body as any).at(0);
 
         const comments = context.sourceCode.getAllComments();
 
@@ -200,7 +200,7 @@ export default createRule<Options, MessageIds>({
           if (
             directive === 'nocheck' &&
             firstStatement &&
-            firstStatement.loc.start.line <= comment.loc.start.line
+            (firstStatement as any).loc.start.line <= comment.loc.start.line
           ) {
             return;
           }
